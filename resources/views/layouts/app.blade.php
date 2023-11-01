@@ -73,11 +73,11 @@
                         <ul class="list-group">
                             @foreach($leftNavItems as $leftNavItem)
                                 <li @class([
-                                    'active' => \Illuminate\Support\Facades\Request::is($leftNavItem['url']),
+                                    'active' => \Illuminate\Support\Facades\Request::is("*{$leftNavItem['url']}*"),
                                     'list-group-item'
                                 ])>
-                                    <a href="{{ $leftNavItem['url'] }}" @class([
-                                        'text-white' => \Illuminate\Support\Facades\Request::is($leftNavItem['url']),
+                                    <a href="/{{ $leftNavItem['url'] }}" @class([
+                                        'text-white' => \Illuminate\Support\Facades\Request::is("*{$leftNavItem['url']}*"),
                                         'text-decoration-none'
                                     ])>{!! $leftNavItem['icon'] !!} {{ $leftNavItem['name'] }}</a>
                                 </li>

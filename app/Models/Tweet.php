@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Spatie\Tags\HasTags;
 
 /**
  * @mixin Builder
@@ -52,25 +53,6 @@ class Tweet extends Model
         'skipped' => 'boolean'
     ];
 
-    public static function booted()
-    {
-        self::created(function (Tweet $tweet) {
-            $response = resolve(SlackApiInterface::class)->sendMessage($tweet);
-
-            /** @var SlackMessage $slackMessage */
-            $slackMessage = SlackMessage::create([
-                'ts_id' => $response->ts(),
-                'message' => $response->message()
-            ]);
-
-            $slackMessage->slackMessageChannels()
-                ->create([
-                    'slackable_id' => $tweet->id,
-                    'slackable_type' => Tweet::class
-                ]);
-        });
-    }
-
     public function keywordReply(): BelongsTo
     {
         return $this->belongsTo(KeywordReply::class, 'keyword_reply_id');
@@ -89,11 +71,6 @@ class Tweet extends Model
     public function getTweetUrlAttribute(): string
     {
         return "{$this->twitterUser->twitter_url}/status/{$this->tweet_id}/";
-    }
-
-    public function getNovaLinkAttribute(): string
-    {
-        return url("/nova/resources/tweets/{$this->id}");
     }
 
     public function getStatusAttribute(): string

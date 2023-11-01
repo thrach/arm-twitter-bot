@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SearchTermsController;
+use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\TwitterApiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,12 +22,6 @@ Route::get('/', function () {
    return view('welcome');
 });
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
-
 Route::prefix('twitter')
     ->name('twitter.')
     ->group(function () {
@@ -33,4 +29,16 @@ Route::prefix('twitter')
         Route::get('callback', [TwitterApiController::class, 'callback'])->name('callback');
     });
 
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+
+Route::middleware('auth')
+    ->group(function () {
+        Route::resource('tweets', TweetsController::class)
+            ->except('create', 'store');
+        Route::resource('search-terms', SearchTermsController::class);
+    });
 

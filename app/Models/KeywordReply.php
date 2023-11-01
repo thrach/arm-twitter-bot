@@ -24,6 +24,8 @@ use Spatie\Tags\HasTags;
  */
 class KeywordReply extends Model
 {
+    use HasTags;
+
     protected $fillable = [
         'reply',
     ];
