@@ -33,4 +33,5 @@
             @endforeach
         </tbody>
     </table>
+    {{ $tweets->links() }}
 @endsection

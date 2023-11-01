@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\API\Twitter\Concretes\V2\TwitterApi;
 use App\API\Twitter\Contracts\TwitterApiInterface;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrap();
+
         View::share('leftNavItems', [
             [
                 'name' => 'Tweets',
