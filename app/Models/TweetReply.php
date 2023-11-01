@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 
 /**
+ * @mixin Builder
+ *
  * @property int $id
  * @property int $tweet_id
  * @property int|null $replied_as_id
@@ -34,8 +35,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class TweetReply extends Model
 {
-    use Actionable;
-
     protected $fillable = [
         'tweet_id',
         'twitter_post_id',

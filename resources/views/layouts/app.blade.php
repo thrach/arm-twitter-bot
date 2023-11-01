@@ -42,12 +42,6 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -73,7 +67,28 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            @foreach($leftNavItems as $leftNavItem)
+                                <li @class([
+                                    'active' => \Illuminate\Support\Facades\Request::is($leftNavItem['url']),
+                                    'list-group-item'
+                                ])>
+                                    <a href="{{ $leftNavItem['url'] }}" @class([
+                                        'text-white' => \Illuminate\Support\Facades\Request::is($leftNavItem['url']),
+                                        'text-decoration-none'
+                                    ])>{!! $leftNavItem['icon'] !!} {{ $leftNavItem['name'] }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-md-8">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </body>

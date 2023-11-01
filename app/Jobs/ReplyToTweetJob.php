@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\API\Slack\Contracts\SlackApiInterface;
 use App\API\Twitter\Contracts\TwitterApiInterface;
 use App\Models\SlackMessage;
 use App\Models\Tweet;

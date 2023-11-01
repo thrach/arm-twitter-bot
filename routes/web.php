@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TwitterApiController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +20,12 @@ Route::get('/', function () {
    return view('welcome');
 });
 
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('home');
+
 Route::prefix('twitter')
     ->name('twitter.')
     ->group(function () {
@@ -25,22 +33,4 @@ Route::prefix('twitter')
         Route::get('callback', [TwitterApiController::class, 'callback'])->name('callback');
     });
 
-Route::get('test', function () {
-    $response = resolve(\App\API\Twitter\Contracts\TwitterApiInterface::class)->stats(1712714911803965815);
 
-    $response->publicMetrics()
-        ->each(function ($item) {
-            foreach($item as $tweetId => $publicStatus) {
-                \App\Models\TweetReply::where('twitter_post_id', $tweetId)
-                    ->update($publicStatus);
-            }
-        });
-});
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

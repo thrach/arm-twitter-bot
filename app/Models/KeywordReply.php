@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 use Spatie\Tags\HasTags;
 
 /**
+ * @mixin Builder
+ *
  * @property int $id
  *
  * @property string $reply
@@ -22,8 +24,6 @@ use Spatie\Tags\HasTags;
  */
 class KeywordReply extends Model
 {
-    use HasTags,
-        Actionable;
     protected $fillable = [
         'reply',
     ];

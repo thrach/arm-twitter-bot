@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\API\Slack\Contracts\SlackApiInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
-use Laravel\Nova\Actions\Actionable;
 
 /**
+ * @mixin Builder
+ *
  * @property int $id
  * @property int $keyword_reply_id
  * @property int $twitter_user_id
@@ -37,7 +37,6 @@ use Laravel\Nova\Actions\Actionable;
  */
 class Tweet extends Model
 {
-    use Actionable;
     protected $fillable = [
         'keyword_reply_id',
         'twitter_user_id',
@@ -85,11 +84,6 @@ class Tweet extends Model
     public function tweetReply(): HasOne
     {
         return $this->hasOne(TweetReply::class, 'tweet_id');
-    }
-
-    public function slackable()
-    {
-        return $this->morphOne(SlackMessageChannel::class, 'slackable');
     }
 
     public function getTweetUrlAttribute(): string
