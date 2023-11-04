@@ -19,7 +19,7 @@ class SearchForKeywordTweets implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public string $excludedKeyWords;
+    public string|null $excludedKeyWords;
 
     /**
      * Create a new job instance.
@@ -31,7 +31,7 @@ class SearchForKeywordTweets implements ShouldQueue
         $this->excludedKeyWords = $this->searchTerm
             ->keyword
             ->searchTermExclusion
-            ->tags
+            ?->tags
             ->pluck('name')
             ->map(function ($item) {
                 return '-' . $item;
@@ -63,12 +63,11 @@ class SearchForKeywordTweets implements ShouldQueue
                                 'tweet_id' => $tweet->id,
                                 'twitter_user_id' => $twitterUser->id,
                                 'tweet' => $tweet->text,
-                                'reply' => $this->searchTerm->reply,
+                                'reply' => $this->searchTerm->keyword->replies()->inRandomOrder()->first()->reply
                             ]);
                     }
                 });
         } catch (\Throwable $th) {
-            dd($th->getMessage(), $th->getFile(), $th->getLine());
             Log::channel('twitter')->error($th->getMessage());
         }
     }

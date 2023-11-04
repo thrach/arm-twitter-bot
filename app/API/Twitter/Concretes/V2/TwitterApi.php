@@ -18,6 +18,7 @@ use App\Exceptions\Twitter\ReplyToTweetException;
 use App\Exceptions\Twitter\SearchTweetsException;
 use App\Exceptions\Twitter\TweetDetailsException;
 use App\Exceptions\Twitter\TweetStatsException;
+use App\Exceptions\Twitter\TwitterMeException;
 use App\Models\OauthCredential;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -73,7 +74,10 @@ class TwitterApi implements TwitterApiInterface
         return redirect()->away("{$this->config['authorize_url']}?$query");
     }
 
-    public function handleCallback(string $code)
+    /**
+     * @throws AccessTokenFetchException
+     */
+    public function handleCallback(string $code): void
     {
         $client = new Client();
 
@@ -122,6 +126,9 @@ class TwitterApi implements TwitterApiInterface
         }
     }
 
+    /**
+     * @throws TwitterMeException
+     */
     public function getDetailsOfUserFor(OauthCredential $oauthCredential)
     {
         try {
@@ -164,7 +171,7 @@ class TwitterApi implements TwitterApiInterface
     /**
      * @throws RefreshTokenFetchException
      */
-    public function refreshToken(OauthCredential $oauthCredential)
+    public function refreshToken(OauthCredential $oauthCredential): void
     {
         $client = new Client();
 
@@ -207,6 +214,9 @@ class TwitterApi implements TwitterApiInterface
         }
     }
 
+    /**
+     * @throws SearchTweetsException
+     */
     public function searchTweets(string $keywords, ?string $excludedKeywords = null): TweetSearchResponseInterface
     {
         $query = "{$keywords} -is:retweet -from:join_juno"; // -is:retweet is to exclude retweets -from:join_juno is to exclude our own tweets
@@ -221,6 +231,7 @@ class TwitterApi implements TwitterApiInterface
                     'tweet.fields' => 'entities,context_annotations,possibly_sensitive,public_metrics',
                 ]
             ]);
+
             return new TweetSearch(json_decode($response->getBody()->getContents()));
         } catch (BadResponseException $exception) {
             Log::channel('twitter')
@@ -241,6 +252,9 @@ class TwitterApi implements TwitterApiInterface
         }
     }
 
+    /**
+     * @throws ReplyToTweetException
+     */
     public function replyTo(int $id, string $reply): TweetReplyResponseInterface
     {
         try {
@@ -273,6 +287,9 @@ class TwitterApi implements TwitterApiInterface
         }
     }
 
+    /**
+     * @throws TweetDetailsException
+     */
     public function detailsOf(int $tweetId): TweetDetailsInterface
     {
         try {

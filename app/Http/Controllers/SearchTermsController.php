@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SearchForKeywordTweets;
 use App\Models\KeywordReply;
 use App\Models\KeywordReplyText;
 use App\Models\SearchTerm;
@@ -135,5 +136,12 @@ class SearchTermsController extends Controller
         $reply->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function search(SearchTerm $searchTerm)
+    {
+        dispatch_sync(new SearchForKeywordTweets($searchTerm));
+
+        return redirect()->route('tweets.index');
     }
 }

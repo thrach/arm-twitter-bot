@@ -7,7 +7,17 @@
                 <h5 class="card-title">{{ $tweet->twitterUser->username }}</h5>
                 <p class="card-text">{{ $tweet->tweet }}</p>
                 @if (! $tweet->replied)
-                    <a href="#" class="btn btn-primary">Reply</a>
+                    <form method="POST" action="{{ route('tweets.reply', ['tweet' => $tweet->id]) }}">
+                        <select class="select2" name="auth_user_id">
+                            <option value="{{ null }}">Random</option>
+                            @foreach($authUsers as $authUser)
+                                <option value="{{ $authUser->id }}">{{ $authUser->name }}</option>
+                            @endforeach
+                        </select>
+                        <textarea class="form-control" name="reply_text">{{ $tweet->reply }}</textarea>
+                        @csrf
+                        <button type="submit" class="btn btn-primary mb-2 mt-2">Reply</button>
+                    </form>
                 @endif
             </div>
         </div>
@@ -46,3 +56,11 @@
         @endif
     </div>
 @endsection
+
+@push('footer-scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+@endpush

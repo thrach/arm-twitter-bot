@@ -15,8 +15,6 @@ use Spatie\Tags\HasTags;
  *
  * @property int $id
  *
- * @property string $reply
- *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *

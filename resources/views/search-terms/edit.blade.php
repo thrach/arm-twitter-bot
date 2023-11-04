@@ -15,7 +15,7 @@
         <div class="mb-3">
             <label for="exclusions" class="form-label">Keyword exclusions</label>
             <select name="exclusions[]" id="exclusions" class="form-control select2" multiple="multiple">
-                @if($searchTerm->keyword->searchTermExclusion->tags)
+                @if($searchTerm->keyword->searchTermExclusion?->tags)
                     @foreach($searchTerm->keyword->searchTermExclusion->tags as $tag)
                         <option value="{{ $tag->name }}" selected>{{ $tag->name }}</option>
                     @endforeach

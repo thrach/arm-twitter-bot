@@ -40,8 +40,10 @@ Route::middleware('auth')
     ->group(function () {
         Route::resource('tweets', TweetsController::class)
             ->except('create', 'store');
+        Route::post('tweets/{tweet}/reply', [TweetsController::class, 'reply'])->name('tweets.reply');
         Route::resource('search-terms', SearchTermsController::class);
         Route::post('delete-reply/{reply}', [SearchTermsController::class, 'deleteReply'])->name('delete-reply');
+        Route::post('search-terms/{search_term}/search', [SearchTermsController::class, 'search'])->name('search-terms.search');
     });
 
 

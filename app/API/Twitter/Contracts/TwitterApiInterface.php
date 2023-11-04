@@ -15,7 +15,7 @@ interface TwitterApiInterface
 
     public function replyTo(int $id, string $reply): TweetReplyResponseInterface;
 
-    public function detailsOf(int $id): TweetDetailsInterface;
+    public function detailsOf(int $tweetId): TweetDetailsInterface;
 
     public function stats(string $tweetIds): TweetStatsResponseInterface;
 
