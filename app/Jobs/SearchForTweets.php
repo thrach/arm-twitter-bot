@@ -19,8 +19,8 @@ class SearchForTweets implements ShouldQueue
      */
     public function handle(TwitterApiInterface $twitterApi): void
     {
-        SearchTerm::each(function (SearchTerm $keywordReply) use ($twitterApi){
-            dispatch(new SearchForKeywordTweets($keywordReply));
+        SearchTerm::each(function (SearchTerm $searchTerm) use ($twitterApi){
+            dispatch(new SearchForKeywordTweets($searchTerm));
         });
     }
 }

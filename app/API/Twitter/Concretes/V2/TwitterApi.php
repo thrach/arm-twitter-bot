@@ -37,25 +37,25 @@ class TwitterApi implements TwitterApiInterface
 
     public function __construct(public readonly ?OauthCredential $authCredential = null)
     {
-//        $this->config = config('services.twitter');
-//        $defaultConfig = [
-//            'base_uri' => $this->config['base_uri'],
-//        ];
-//        /** @var OauthCredential $oauthCredential */
-//        $oauthCredential = $this->authCredential->exists ? $this->authCredential : OauthCredential::where('provider', OauthCredential::TWITTER_PROVIDER)->first();
-//
-//        if ($oauthCredential) {
-//            if ($oauthCredential->expires_at->lt(now()->addSeconds(10))) {
-//                $this->refreshToken($oauthCredential);
-//                $oauthCredential->refresh();
-//            }
-//
-//            $defaultConfig[RequestOptions::HEADERS] = [
-//                "Authorization" => "Bearer {$oauthCredential->access_token}"
-//            ];
-//        }
-//
-//        $this->client = new Client($defaultConfig);
+        $this->config = config('services.twitter');
+        $defaultConfig = [
+            'base_uri' => $this->config['base_uri'],
+        ];
+        /** @var OauthCredential $oauthCredential */
+        $oauthCredential = $this->authCredential->exists ? $this->authCredential : OauthCredential::where('provider', OauthCredential::TWITTER_PROVIDER)->first();
+
+        if ($oauthCredential) {
+            if ($oauthCredential->expires_at->lt(now()->addSeconds(10))) {
+                $this->refreshToken($oauthCredential);
+                $oauthCredential->refresh();
+            }
+
+            $defaultConfig[RequestOptions::HEADERS] = [
+                "Authorization" => "Bearer {$oauthCredential->access_token}"
+            ];
+        }
+
+        $this->client = new Client($defaultConfig);
     }
 
     public function authorizeUrl(): RedirectResponse

@@ -31,7 +31,7 @@ use Spatie\Tags\HasTags;
  *
  * @property-read string $status
  *
- * @property-read SearchTerm $keywordReply
+ * @property-read SearchTerm $searchTerm
  * @property-read TwitterUser $twitterUser
  * @property-read TweetReply $tweetReply
  * @property-read SlackMessageChannel $slackable
@@ -53,9 +53,9 @@ class Tweet extends Model
         'skipped' => 'boolean'
     ];
 
-    public function keywordReply(): BelongsTo
+    public function searchTerm(): BelongsTo
     {
-        return $this->belongsTo(SearchTerm::class, 'keyword_reply_id');
+        return $this->belongsTo(SearchTerm::class, 'search_term_id');
     }
 
     public function twitterUser(): BelongsTo

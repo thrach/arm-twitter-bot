@@ -30,7 +30,7 @@ class SearchTerm extends Model
 
     public function tweets(): HasMany
     {
-        return $this->hasMany(Tweet::class, 'keyword_reply_id');
+        return $this->hasMany(Tweet::class, 'search_term_id');
     }
 
     public function keyword(): HasOne

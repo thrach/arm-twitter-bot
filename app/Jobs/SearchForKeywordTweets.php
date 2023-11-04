@@ -24,11 +24,15 @@ class SearchForKeywordTweets implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(protected readonly SearchTerm $keywordReply)
+    public function __construct(protected readonly SearchTerm $searchTerm)
     {
-        $this->excludedKeyWords = $this->keywordReply
-            ->twitterSearchExclusions
-            ->pluck('keyword')
+        $this->searchTerm->load('keyword.searchTermExclusion');
+
+        $this->excludedKeyWords = $this->searchTerm
+            ->keyword
+            ->searchTermExclusion
+            ->tags
+            ->pluck('name')
             ->map(function ($item) {
                 return '-' . $item;
             })->implode(' ');
@@ -40,7 +44,8 @@ class SearchForKeywordTweets implements ShouldQueue
     public function handle(TwitterApiInterface $twitterApi): void
     {
         try {
-            $response = $twitterApi->searchTweets($this->keywordReply->tags->pluck('name')->join(','), $this->excludedKeyWords);
+            $response = $twitterApi->searchTweets($this->searchTerm->tags->pluck('name')->join(','), $this->excludedKeyWords);
+
             $response->tweets()
                 ->each(function ($tweet) use ($twitterApi) {
                     if (! Tweet::where('tweet_id', $tweet->id)->exists()) {
@@ -52,17 +57,18 @@ class SearchForKeywordTweets implements ShouldQueue
                             'name' => $user->name,
                         ]);
 
-                        $this->keywordReply
+                        $this->searchTerm
                             ->tweets()
                             ->create([
                                 'tweet_id' => $tweet->id,
                                 'twitter_user_id' => $twitterUser->id,
                                 'tweet' => $tweet->text,
-                                'reply' => $this->keywordReply->reply,
+                                'reply' => $this->searchTerm->reply,
                             ]);
                     }
                 });
         } catch (\Throwable $th) {
+            dd($th->getMessage(), $th->getFile(), $th->getLine());
             Log::channel('twitter')->error($th->getMessage());
         }
     }

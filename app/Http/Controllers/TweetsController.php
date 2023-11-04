@@ -21,7 +21,7 @@ class TweetsController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        $tweet->load('twitterUser', 'tweetReply', 'keywordReply');
+        $tweet->load('twitterUser', 'tweetReply', 'searchTerm');
 
         return view('tweets.show', compact('tweet'));
     }

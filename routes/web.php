@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SearchTermsController;
 use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\TwitterApiController;
+use App\Jobs\SearchForKeywordTweets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,3 +44,8 @@ Route::middleware('auth')
         Route::post('delete-reply/{reply}', [SearchTermsController::class, 'deleteReply'])->name('delete-reply');
     });
 
+
+Route::get('test', function () {
+    $searchTerm = \App\Models\SearchTerm::find(1);
+    dispatch_sync(new SearchForKeywordTweets($searchTerm));
+});

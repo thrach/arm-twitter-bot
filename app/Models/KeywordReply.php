@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\Tags\Tag;
 
 /**
  * @mixin Builder
@@ -21,8 +22,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  *
  * @property-read KeywordReplyText[] $replies
- * @property SearchTerm $searchTerm
- * @property SearchTermExclusion|null $searchTermExclusion
+ * @property-read  SearchTerm $searchTerm
+ * @property-read SearchTermExclusion|null $searchTermExclusion
  */
 class KeywordReply extends Model
 {
