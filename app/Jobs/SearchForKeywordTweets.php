@@ -3,9 +3,9 @@
 namespace App\Jobs;
 
 use App\API\Twitter\Contracts\TwitterApiInterface;
-use App\Models\KeywordReply;
+use App\Models\SearchTerm;
 use App\Models\Tweet;
-use App\Models\TwitterSearchExclusion;
+use App\Models\SearchTermExclusion;
 use App\Models\TwitterUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -24,7 +24,7 @@ class SearchForKeywordTweets implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(protected readonly KeywordReply $keywordReply)
+    public function __construct(protected readonly SearchTerm $keywordReply)
     {
         $this->excludedKeyWords = $this->keywordReply
             ->twitterSearchExclusions

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('twitter_search_exclusions', function (Blueprint $table) {
+        Schema::create('search_term_exclusions', function (Blueprint $table) {
             $table->id();
-            $table->string('keyword');
             $table->timestamps();
         });
     }

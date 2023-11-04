@@ -4,39 +4,45 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Spatie\Tags\HasTags;
 
 /**
  * @mixin Builder
  *
  * @property int $id
+ * @property int $search_term_id
+ * @property int|null $search_term_exclusion_id
  *
  * @property string $reply
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property-read Tweet[] $tweets
- * @property-read TwitterSearchExclusion[] $twitterSearchExclusions
+ * @property-read KeywordReplyText[] $replies
+ * @property SearchTerm $searchTerm
+ * @property SearchTermExclusion|null $searchTermExclusion
  */
 class KeywordReply extends Model
 {
-    use HasTags;
-
     protected $fillable = [
-        'reply',
+        'search_term_id',
+        'search_term_exclusion_id'
     ];
 
-    public function tweets(): HasMany
+    public function replies(): HasMany
     {
-        return $this->hasMany(Tweet::class, 'keyword_reply_id');
+        return $this->hasMany(KeywordReplyText::class, 'keyword_reply_id');
     }
 
-    public function twitterSearchExclusions(): BelongsToMany
+    public function searchTerm(): BelongsTo
     {
-        return $this->belongsToMany(TwitterSearchExclusion::class);
+        return $this->belongsTo(SearchTerm::class, 'search_term_id');
+    }
+
+    public function searchTermExclusion(): BelongsTo
+    {
+        return $this->belongsTo(SearchTermExclusion::class, 'search_term_exclusion_id');
     }
 }

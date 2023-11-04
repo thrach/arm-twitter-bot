@@ -11,19 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keyword_reply_twitter_search_exclusion', function (Blueprint $table) {
+        Schema::create('keyword_reply_texts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('twitter_search_exclusion_id');
             $table->unsignedBigInteger('keyword_reply_id');
+            $table->longText('reply');
             $table->timestamps();
 
-            $table->foreign('twitter_search_exclusion_id', 'tse_kr_tse_id_fk')
-                ->references('id')
-                ->on('twitter_search_exclusions')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('keyword_reply_id', 'tse_kr_kr_id_fk')
+            $table->foreign('keyword_reply_id')
                 ->references('id')
                 ->on('keyword_replies')
                 ->onUpdate('cascade')
@@ -36,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keyword_reply_twitter_search_exclusion');
+        Schema::dropIfExists('keyword_reply_texts');
     }
 };

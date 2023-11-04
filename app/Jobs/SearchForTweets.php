@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\API\Twitter\Contracts\TwitterApiInterface;
-use App\Models\KeywordReply;
+use App\Models\SearchTerm;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,7 +19,7 @@ class SearchForTweets implements ShouldQueue
      */
     public function handle(TwitterApiInterface $twitterApi): void
     {
-        KeywordReply::each(function (KeywordReply $keywordReply) use ($twitterApi){
+        SearchTerm::each(function (SearchTerm $keywordReply) use ($twitterApi){
             dispatch(new SearchForKeywordTweets($keywordReply));
         });
     }

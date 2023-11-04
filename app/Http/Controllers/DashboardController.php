@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KeywordReply;
+use App\Models\SearchTerm;
 use App\Models\Tweet;
 use App\Models\TweetReply;
 use App\Models\TwitterAuthUser;
@@ -30,7 +30,7 @@ class DashboardController extends Controller
     {
         $tweetsCount = Tweet::count();
         $repliesCount = TweetReply::count();
-        $searchTerms = KeywordReply::count();
+        $searchTerms = SearchTerm::count();
         $twitterAccounts = TwitterAuthUser::count();
         return view('dashboard' , compact('tweetsCount', 'repliesCount', 'searchTerms', 'twitterAccounts'));
     }

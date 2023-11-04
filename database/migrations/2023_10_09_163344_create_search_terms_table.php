@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keyword_replies', function (Blueprint $table) {
+        Schema::create('search_terms', function (Blueprint $table) {
             $table->id();
-            $table->text('reply');
             $table->timestamps();
         });
     }

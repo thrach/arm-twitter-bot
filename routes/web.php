@@ -40,5 +40,6 @@ Route::middleware('auth')
         Route::resource('tweets', TweetsController::class)
             ->except('create', 'store');
         Route::resource('search-terms', SearchTermsController::class);
+        Route::post('delete-reply/{reply}', [SearchTermsController::class, 'deleteReply'])->name('delete-reply');
     });
 
