@@ -2,7 +2,11 @@
 
 @section('content')
     <div class="row">
+        <a href="{{ route('search-terms.edit', ['search_term' => $searchTerm->id]) }}" class="btn btn-primary mb-2">Edit</a>
         <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Search Terms</h5>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{ $searchTerm->tags->pluck('name')->join(', ') }}</h5>
             </div>
