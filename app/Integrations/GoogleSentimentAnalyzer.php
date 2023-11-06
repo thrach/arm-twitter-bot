@@ -11,7 +11,7 @@ class GoogleSentimentAnalyzer
 
     public function __construct()
     {
-        $authKeyFile = config('services.google.auth_key_file');
+        $authKeyFile = config('services.google.sentiment.auth_key_file');
 
         $this->client = new LanguageClient([
             'keyFilePath' => storage_path("keys/{$authKeyFile}"),
