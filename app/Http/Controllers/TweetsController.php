@@ -25,7 +25,7 @@ class TweetsController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        $tweet->load('twitterUser', 'tweetReply', 'searchTerm.keyword.replies');
+        $tweet->load('twitterUser', 'tweetReply', 'searchTerm.keyword.replies', 'sentiment');
         $authUsers = TwitterAuthUser::where('can_reply_with_this_account', true)->get();
 
         return view('tweets.show', compact('tweet', 'authUsers'));
