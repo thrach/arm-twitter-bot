@@ -15,7 +15,7 @@
             <hr class="dark horizontal my-0">
                 <div class="row align-items-center">
                     @if(! $tweet->replied)
-                        <div class="p-4">
+                        <div class="mb-4 col-lg-6 p-4">
                             <form method="POST" action="{{ route('tweets.reply', ['tweet' => $tweet->id]) }}">
                                 @csrf
                                 <div class="input-group mb-4">
