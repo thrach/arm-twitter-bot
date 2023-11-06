@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\API\Twitter\Concretes\V2\TwitterApi;
 use App\API\Twitter\Contracts\TwitterApiInterface;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -20,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
 //        URL::forceScheme('https');
+
+        Http::macro('sentiment', function () {
+            $config = config('services.google.sentiment');
+
+            return Http::baseUrl($config['base_uri'])
+                ->withHeaders([
+                    "Authorization" => "Bearer {$config['api_token']}",
+                    "Content-Type" => "application/json"
+                ]);
+        });
     }
 
     /**

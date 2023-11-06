@@ -44,6 +44,11 @@ return [
         'bot_token' => env('SLACK_BOT_TOKEN'),
         'base_uri' => env('SLACK_BASE_API_URL'),
         'channel_id' => env('SLACK_CHANNEL_ID'),
-    ]
+    ],
 
+    'google' => [
+        'sentiment' => [
+            'auth_key_file' => env('GOOGLE_AUTH_KEY_FILE'),
+        ]
+    ]
 ];

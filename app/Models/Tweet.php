@@ -68,6 +68,11 @@ class Tweet extends Model
         return $this->hasOne(TweetReply::class, 'tweet_id');
     }
 
+    public function sentiment(): HasOne
+    {
+        return $this->hasOne(TweetSentimentAnalysis::class, 'tweet_id');
+    }
+
     public function getTweetUrlAttribute(): string
     {
         return "{$this->twitterUser->twitter_url}/status/{$this->tweet_id}/";

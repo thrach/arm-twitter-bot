@@ -18,35 +18,11 @@ class TwitterUsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(TwitterAuthUser $twitterUser)
     {
         return view('twitter-users.show', compact('twitterUser'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TwitterAuthUser $twitterAuthUser)
-    {
-        //
     }
 
     /**
@@ -60,13 +36,5 @@ class TwitterUsersController extends Controller
         ]);
 
         return back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TwitterAuthUser $twitterAuthUser)
-    {
-        //
     }
 }

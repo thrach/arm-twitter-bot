@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\API\Twitter\Contracts\TwitterApiInterface;
+use App\Facades\SentimentAnalyse;
 use App\Models\SearchTerm;
 use App\Models\Tweet;
 use App\Models\SearchTermExclusion;
@@ -57,13 +58,19 @@ class SearchForKeywordTweets implements ShouldQueue
                             'name' => $user->name,
                         ]);
 
-                        $this->searchTerm
+                        /** @var Tweet $tweet */
+                        $tweet = $this->searchTerm
                             ->tweets()
                             ->create([
                                 'tweet_id' => $tweet->id,
                                 'twitter_user_id' => $twitterUser->id,
                                 'tweet' => $tweet->text,
                                 'reply' => $this->searchTerm->keyword->replies()->inRandomOrder()->first()->reply
+                            ]);
+
+                        $tweet->sentiment()
+                            ->create([
+                                'analysis' => SentimentAnalyse::forText($tweet->tweet)
                             ]);
                     }
                 });

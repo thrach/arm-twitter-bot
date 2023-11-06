@@ -48,11 +48,16 @@ Route::middleware('auth')
         Route::resource('search-terms', SearchTermsController::class);
         Route::post('delete-reply/{reply}', [SearchTermsController::class, 'deleteReply'])->name('delete-reply');
         Route::post('search-terms/{search_term}/search', [SearchTermsController::class, 'search'])->name('search-terms.search');
-        Route::resource('twitter-users', TwitterUsersController::class);
+        Route::resource('twitter-users', TwitterUsersController::class)
+            ->only('index', 'show', 'update');
     });
 
 
 Route::get('test', function () {
-    $searchTerm = \App\Models\SearchTerm::find(1);
-    dispatch_sync(new SearchForKeywordTweets($searchTerm));
+    $language = new \Google\Cloud\Language\LanguageClient([
+        'keyFilePath' => storage_path('keys/armenia-tweets-b6a9e36fc631.json'),
+    ]);
+
+    $response = $language->analyzeSentiment("I am very angry");
+    dd($response);
 });
