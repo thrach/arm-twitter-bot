@@ -18,8 +18,8 @@ class GoogleSentimentAnalyzer
         ]);
     }
 
-    public function forText(string $text): Annotation
+    public function forText(string $text): array
     {
-        return $this->client->analyzeSentiment($text);
+        return $this->client->analyzeSentiment($text)->info();
     }
 }

@@ -7,7 +7,7 @@ use Google\Cloud\Language\Annotation;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static Annotation forText(string $text)
+ * @method static array forText(string $text)
  */
 class SentimentAnalyse extends Facade
 {

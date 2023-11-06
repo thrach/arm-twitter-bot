@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $tweet_id
  *
- * @property object $analysis
+ * @property array $analysis
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -29,7 +29,7 @@ class TweetSentimentAnalysis extends Model
     ];
 
     protected $casts = [
-        'analysis' => 'object'
+        'analysis' => 'array'
     ];
 
     public function tweet(): BelongsTo
