@@ -19,6 +19,6 @@ class TwitterApiController extends Controller
     {
         $this->twitterApi->handleCallback($request->get('code'));
 
-        return redirect()->to('/dashboard');
+        return redirect()->route('thank-you');
     }
 }
