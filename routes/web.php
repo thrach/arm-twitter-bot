@@ -5,6 +5,7 @@ use App\Http\Controllers\SearchTermsController;
 use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TwitterUsersController;
 use App\Jobs\SearchForKeywordTweets;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,7 @@ Route::middleware('auth')
         Route::resource('search-terms', SearchTermsController::class);
         Route::post('delete-reply/{reply}', [SearchTermsController::class, 'deleteReply'])->name('delete-reply');
         Route::post('search-terms/{search_term}/search', [SearchTermsController::class, 'search'])->name('search-terms.search');
+        Route::resource('twitter-users', TwitterUsersController::class);
     });
 
 

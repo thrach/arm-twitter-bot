@@ -14,6 +14,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $oauth_credential_id
  *
+ * @property boolean $can_reply_with_this_account
+ *
  * @property string $twitter_id
  * @property string $name
  * @property string $username
@@ -29,7 +31,12 @@ class TwitterAuthUser extends Model
     protected $fillable = [
         'twitter_id',
         'name',
-        'username'
+        'username',
+        'can_reply_with_this_account'
+    ];
+
+    protected $casts = [
+        'can_reply_with_this_account' => 'boolean'
     ];
 
     public function oauthCredential(): BelongsTo
@@ -40,5 +47,23 @@ class TwitterAuthUser extends Model
     public function replies(): HasMany
     {
         return $this->hasMany(TweetReply::class, 'replied_as_id');
+    }
+
+    public function getStatusAttribute(): string
+    {
+        if ($this->can_reply_with_this_account) {
+            return 'success';
+        }
+
+        return 'danger';
+    }
+
+    public function getStatusTextAttribute(): string
+    {
+        return match ($this->status) {
+            'success' => 'Can reply',
+            'danger' => 'Cannot reply',
+            default => 'Unknown'
+        };
     }
 }

@@ -41,6 +41,15 @@
                     <span class="nav-link-text ms-1">Search Terms</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'twitter-users' ? ' active bg-gradient-primary' : '' }}  "
+                   href="{{ route('twitter-users.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Twitter Users</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

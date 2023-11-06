@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Log;
 
 class TwitterApi implements TwitterApiInterface
 {
-    protected $version = 2;
+    protected int $version = 2;
 
     protected array $config = [];
 
