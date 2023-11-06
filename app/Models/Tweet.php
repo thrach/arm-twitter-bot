@@ -76,14 +76,23 @@ class Tweet extends Model
     public function getStatusAttribute(): string
     {
         if ($this->replied) {
-            return 'replied';
+            return 'success';
         }
 
         if ($this->skipped) {
-            return 'skipped';
+            return 'danger';
         }
 
-        return 'pending';
+        return 'info';
+    }
+
+    public function getStatusTextAttribute(): string
+    {
+        return match ($this->status) {
+            'success' => 'Replied',
+            'danger' => 'Skipped',
+            default => 'Pending',
+        };
     }
 
     public function markAsReplied(): void
