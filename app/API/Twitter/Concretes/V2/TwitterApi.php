@@ -20,6 +20,7 @@ use App\Exceptions\Twitter\TweetDetailsException;
 use App\Exceptions\Twitter\TweetStatsException;
 use App\Exceptions\Twitter\TwitterMeException;
 use App\Models\OauthCredential;
+use App\Models\TwitterAuthUser;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
@@ -140,6 +141,13 @@ class TwitterApi implements TwitterApiInterface
 
             $data = json_decode($response->getBody()->getContents())->data;
 
+            if ($authUser = TwitterAuthUser::where('twitter_id', $data->id)->first()) {
+                $authUser->update([
+                    'oauth_credential_id' => $oauthCredential->id,
+                ]);
+
+                return;
+            }
             $oauthCredential
                 ->twitterAuthUser()
                 ->create([
