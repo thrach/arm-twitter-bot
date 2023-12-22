@@ -1,12 +1,18 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ForeignAidController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\SearchTermsController;
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TwitterUsersController;
+use App\Http\Middleware\HasVeriefiedPassword;
 use App\Jobs\SearchForKeywordTweets;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +26,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-   return redirect()->route('login');
+Route::get('/', LandingPageController::class);
+Route::post('check-password', function (Request $request) {
+    if ($request->filled('password') && $request->password === config('services.pages.password')) {
+        Cookie::queue('password_step_passed', 'true', 60 * 24 * 30);
+
+        return redirect()->to('/social');
+    }
+
+    return redirect()->back();
 });
+
+Route::middleware(HasVeriefiedPassword::class)
+    ->group(function () {
+        Route::get('social', SocialController::class);
+        Route::get('foreign-aid', ForeignAidController::class);
+    });
 Route::get('thank-you', function () {
-    return view('thank-you');
+    if (session()->get('twitter_authorized')) {
+        return view('thank-you');
+    }
+    return redirect()->to('/');
 })->name('thank-you');
 
 Route::prefix('twitter')

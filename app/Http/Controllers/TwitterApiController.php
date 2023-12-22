@@ -19,6 +19,8 @@ class TwitterApiController extends Controller
     {
         $this->twitterApi->handleCallback($request->get('code'));
 
+        session()->flash('twitter_authorized');
+
         return redirect()->route('thank-you');
     }
 }

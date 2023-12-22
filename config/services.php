@@ -50,5 +50,9 @@ return [
         'sentiment' => [
             'auth_key_file' => env('GOOGLE_AUTH_KEY_FILE'),
         ]
+    ],
+
+    'pages' => [
+        'password' => env('PASSWORD_PROTECTED_PAGE_PASSWORD', 'secret'),
     ]
 ];
