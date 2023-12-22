@@ -9,7 +9,7 @@ use App\Http\Controllers\TweetsController;
 use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TwitterUsersController;
-use App\Http\Middleware\HasVeriefiedPassword;
+use App\Http\Middleware\HasVerifiedPassword;
 use App\Jobs\SearchForKeywordTweets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -37,7 +37,7 @@ Route::post('check-password', function (Request $request) {
     return redirect()->back();
 });
 
-Route::middleware(HasVeriefiedPassword::class)
+Route::middleware(HasVerifiedPassword::class)
     ->group(function () {
         Route::get('social', SocialController::class);
         Route::get('foreign-aid', ForeignAidController::class);
