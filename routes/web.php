@@ -10,7 +10,6 @@ use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TwitterUsersController;
 use App\Http\Middleware\HasVerifiedPassword;
-use App\Jobs\SearchForKeywordTweets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
@@ -73,13 +72,3 @@ Route::middleware('auth')
         Route::resource('twitter-users', TwitterUsersController::class)
             ->only('index', 'show', 'update');
     });
-
-
-Route::get('test', function () {
-    $language = new \Google\Cloud\Language\LanguageClient([
-        'keyFilePath' => storage_path('keys/armenia-tweets-b6a9e36fc631.json'),
-    ]);
-
-    $response = $language->analyzeSentiment("I am very angry");
-    dd($response);
-});

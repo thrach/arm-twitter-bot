@@ -210,7 +210,7 @@ class TwitterApi implements TwitterApiInterface
                     'response' => $exception->getResponse()->getBody()->getContents(),
                     'message' => $exception->getMessage(),
                 ]);
-
+            dd($exception->getResponse()->getBody()->getContents(), $exception->getMessage());
             throw new RefreshTokenFetchException();
         } catch (GuzzleException $exception) {
             Log::channel('twitter')
@@ -235,10 +235,12 @@ class TwitterApi implements TwitterApiInterface
         try {
             $response = $this->client->get("{$this->version}/tweets/search/recent", [
                 RequestOptions::QUERY => [
-                    'query' => $query,
+                    'query' => urlencode($query),
                     'tweet.fields' => 'entities,context_annotations,possibly_sensitive,public_metrics',
                 ]
             ]);
+
+            dd(json_decode($response->getBody()->getContents()));
 
             return new TweetSearch(json_decode($response->getBody()->getContents()));
         } catch (BadResponseException $exception) {
@@ -248,7 +250,7 @@ class TwitterApi implements TwitterApiInterface
                     'response' => $exception->getResponse()->getBody()->getContents(),
                     'message' => $exception->getMessage(),
                 ]);
-
+            dd($exception->getResponse()->getBody()->getContents(), $exception->getMessage());
             throw new SearchTweetsException();
         } catch (GuzzleException $exception) {
             Log::channel('twitter')
